@@ -9,5 +9,5 @@ from . import views
 # ]
 
 urlpatterns = [
-	url(r'lists/$', views.TalkListDetailView.as_view(), name='detail'),
+	url(r'lists/(?P<slug>[-\w]+)/$', views.TalkListDetailView.as_view(), name='detail'),
 ]
