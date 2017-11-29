@@ -3,6 +3,8 @@ from django.views import generic
 #from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from talks.models import TalkList
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
@@ -26,7 +28,13 @@ class SignUpView(
 	form_class = RegistrationForm
 	form_valid_message = 'Thanks for signing up, go ahead and login.'
 	model = User
+	success_url = reverse_lazy('login')
 	template_name = 'accounts/signup.html'
+
+	def form_valid(self, form):
+		resp = super(SignUpView, self).form_valid(form)
+		TalkList.objects.create(user=self.object, name='To Attend')
+		return resp
 
 
 class LoginView(
